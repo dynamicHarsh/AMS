@@ -1,26 +1,32 @@
-import { auth,signOut } from "@/lib/auth"
+export const dynamic = 'force-dynamic'
+
+import { currentProfile } from "@/lib/currentProfile";
+import { Role } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 
+const Dashboard = async () => {
+  
+    const user = await currentProfile();
 
-const Dashboard =async () => {
-    const session = await auth();
-  return (<div>
-    <div>{JSON.stringify(session)}</div>
-    <form
-    action={async ()=>{
-        "use server";
-       await signOut({ redirectTo: '/auth/login' });
-        
-        
-    }}
-    >
-        <button type="submit">
-            SignOut
-        </button>
-    </form>
-    </div>
+    if (!user) {
+      redirect("/auth/login");
+    }
 
-  )
-}
+    switch (user.role) {
+      case Role.TEACHER:
+        redirect("/dashboard/teacher");
+      case Role.STUDENT:
+        redirect("/dashboard/student");
+      case Role.ADMIN:
+        redirect("/admin_dashboard");
+      default:
+        redirect("/error");
+    }
+
+   
+  
+  
+};
+
 export default Dashboard;

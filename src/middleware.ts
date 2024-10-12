@@ -7,6 +7,7 @@ import {
   publicRoutes,
 } from "./routes";
 
+
 const { auth } = NextAuth(authConfig);
 export default auth((req) => {
   const { nextUrl } = req;
@@ -17,17 +18,26 @@ export default auth((req) => {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  if (isApiRoute) {
-    return new Response(null, { status: 200 });
-  }
+  // if (isApiRoute) {
+  //   return new Response(null, { status: 200 });
+  // }
 
-  if (isAuthRoute && isLoggedIn) {
-    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-  }
+  
 
-  if (!isLoggedIn && !isPublicRoute && !isAuthRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
-  }
+  // if (isAuthRoute && isLoggedIn) {
+  //   return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+  // }
+
+  // if (!isLoggedIn && !isPublicRoute && !isAuthRoute) {
+  //   return Response.redirect(new URL("/auth/login", nextUrl));
+  // }
+  // if (!isLoggedIn && isPublicRoute ) {
+  //   return Response.redirect(new URL("/auth/login", nextUrl));
+  // }
+  // if (isLoggedIn && isPublicRoute ) {
+  //   return Response.redirect(new URL("/dashboard", nextUrl));
+  // }
+  
 });
 
 export const config = {
